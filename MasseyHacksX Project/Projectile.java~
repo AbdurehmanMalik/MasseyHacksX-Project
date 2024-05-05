@@ -1,0 +1,18 @@
+import java.awt.Rectangle;
+
+public class Projectile{
+  public static final Vector UP = new Vector(0, -1), DOWN = new Vector(0, 1), RIGHT = new Vector(1, 0), LEFT = new Vector(-1, 0);
+  private Rectangle rect;
+  private Vector direction;
+  private int spd;
+  
+  public Projectile(int x, int y, Vector direction){
+    rect = new Rectangle(x, y, 8, 8);
+    this.direction = direction;
+    spd = 4;
+  }
+  
+  public Rectangle getRect(){
+    return rect;
+  }
+}

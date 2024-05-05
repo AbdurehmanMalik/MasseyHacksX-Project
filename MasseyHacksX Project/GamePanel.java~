@@ -1,0 +1,158 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.ArrayList;
+
+class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener{
+ Timer timer;
+ Player p1;
+ Player p2;
+ ArrayList<Block> p1Blocks;
+ ArrayList<Block> p2Blocks;
+ ArrayList<Cannon> p1Cannons;
+ ArrayList<Cannon> p2Cannons;
+ ArrayList<Spike> p1Spikes;
+ ArrayList<Spike> p2Spikes;
+ ArrayList<Projectile> p1Projectiles;
+ ArrayList<Projectile> p2Projectiles;
+ boolean[] keys;
+ 
+ public GamePanel(){
+  setPreferredSize(new Dimension(512, 768)); //each player's screen is stacked over the other
+  
+  keys = new boolean[1000];
+  
+  p1 = Player.loadPlayer(0);
+  p2 = Player.loadPlayer(0);
+  p1Blocks = Block.loadBlocks(p1);
+  p2Blocks = Block.loadBlocks(p2);
+  p1Cannons = Cannon.loadCannons(p1);
+  p2Cannons = Cannon.loadCannons(p2);
+  p1Spikes = Spike.loadSpikes(p1);
+  p2Spikes = Spike.loadSpikes(p2);
+  p1Projectiles = new ArrayList<Projectile>();
+  p2Projectiles = new ArrayList<Projectile>();
+  
+  timer = new Timer(20, this);
+  timer.start();
+  setFocusable(true);
+  requestFocus();
+  addKeyListener(this);
+  addMouseListener(this);
+ }
+ 
+ public void move(){
+  p1.advanceFrame();
+  p2.advanceFrame();
+  if(keys[KeyEvent.VK_LEFT]){
+   
+  }
+  if(keys[KeyEvent.VK_RIGHT]){
+   
+  }  
+ }
+ 
+ @Override
+ public void actionPerformed(ActionEvent e){
+  move();
+  repaint();
+ }
+
+ @Override
+ public void keyPressed(KeyEvent e){
+  keys[e.getKeyCode()] = true;
+ }
+
+ @Override
+ public void keyReleased(KeyEvent e){
+  keys[e.getKeyCode()] = false;  
+ }
+
+ @Override
+ public void keyTyped(KeyEvent e){}
+
+ @Override
+ public void mouseClicked(MouseEvent e){}
+
+ @Override
+ public void mouseEntered(MouseEvent e){}
+
+ @Override
+ public void mouseExited(MouseEvent e){}
+ 
+ @Override
+ public void mousePressed(MouseEvent e){}
+ 
+ @Override
+ public void mouseReleased(MouseEvent e){}
+
+
+ @Override
+ public void paint(Graphics g){
+   g.setColor(Color.GRAY);
+   g.fillRect(0, 0, getWidth(), getHeight());
+   
+   g.drawImage(Assets.PLAYER_SPRITES[p1.getFrame()], p1.getPos().getX(), p1.getPos().getY(), null);
+   for(Block b : p1Blocks){
+     g.drawImage(Assets.BLOCK, b.getRect().x, b.getRect().y, null);
+   }
+   for(Cannon c : p1Cannons){
+     if(c.getDirection() == Cannon.UP){
+       g.drawImage(Assets.CANNON_UP, c.getRect().x, c.getRect().y, null);
+     }
+     else if(c.getDirection() == Cannon.DOWN){
+       g.drawImage(Assets.CANNON_DOWN, c.getRect().x, c.getRect().y, null);
+     }
+     else if(c.getDirection() == Cannon.RIGHT){
+       g.drawImage(Assets.CANNON_RIGHT, c.getRect().x, c.getRect().y, null);
+     }
+     else if(c.getDirection() == Cannon.LEFT){
+       g.drawImage(Assets.CANNON_LEFT, c.getRect().x, c.getRect().y, null);
+     }
+   }
+   for(Spike s : p1Spikes){
+     g.drawImage(Assets.SPIKES, s.getRect().x, s.getRect().y, null);
+   }
+   for(int y = 0; y < 12; y ++){
+     for(int x = 0; x < 16; x ++){
+       if(Levels.levels[p1.getLevel()][y][x] == Levels.LEVEL_END){
+         g.drawImage(Assets.FLAG, x * 32, y * 32, null);
+       }
+     }
+   }
+   
+   g.drawImage(Assets.PLAYER_SPRITES[p2.getFrame()], p2.getPos().getX(), p2.getPos().getY() + 384, null);
+   for(Block b : p2Blocks){
+     g.drawImage(Assets.BLOCK, b.getRect().x, b.getRect().y + 384, null);
+   }
+   for(Cannon c : p2Cannons){
+     if(c.getDirection() == Cannon.UP){
+       g.drawImage(Assets.CANNON_UP, c.getRect().x, c.getRect().y + 384, null);
+     }
+     else if(c.getDirection() == Cannon.DOWN){
+       g.drawImage(Assets.CANNON_DOWN, c.getRect().x, c.getRect().y + 384, null);
+     }
+     else if(c.getDirection() == Cannon.RIGHT){
+       g.drawImage(Assets.CANNON_RIGHT, c.getRect().x, c.getRect().y + 384, null);
+     }
+     else if(c.getDirection() == Cannon.LEFT){
+       g.drawImage(Assets.CANNON_LEFT, c.getRect().x, c.getRect().y + 384, null);
+     }
+   }
+   for(Spike s : p2Spikes){
+     g.drawImage(Assets.SPIKES, s.getRect().x, s.getRect().y + 384, null);
+   }
+   for(int y = 0; y < 12; y ++){
+     for(int x = 0; x < 16; x ++){
+       if(Levels.levels[p2.getLevel()][y][x] == Levels.LEVEL_END){
+         g.drawImage(Assets.FLAG, x * 32, y * 32 + 384, null);
+       }
+     }
+   }
+ }
+    
+ public static void main(String[] arguments) {
+   new Game0();
+ }
+
+}

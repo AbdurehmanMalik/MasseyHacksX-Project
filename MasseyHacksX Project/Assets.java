@@ -1,0 +1,14 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class Assets{
+  public static final Image P1_VICTORY = loadImage("p1victory.png"), P2_VICTORY = loadImage("p2victory.png"), FLAG = loadImage("flag.png", 32, 32), BLOCK = loadImage("bricks.png", 32, 32), SPIKES = loadImage("spikes.png", 32, 32), SHOT = loadImage("shot.png", 32, 32), CANNON_UP = loadImage("cannon_up.png", 32, 32), CANNON_DOWN = loadImage("cannon_down.png", 32, 32), CANNON_RIGHT = loadImage("cannon_right.png", 32, 32), CANNON_LEFT = loadImage("cannon_left.png", 32, 32);
+  public static final Image[] PLAYER_SPRITES = {loadImage("player1.png", 32, 32), loadImage("player2.png", 32, 32), loadImage("player1.png", 32, 32), loadImage("player3.png", 32, 32)};
+  
+  public static Image loadImage(String s){
+    return new ImageIcon(s).getImage();
+  }
+  public static Image loadImage(String s, int x, int y){
+    return new ImageIcon(s).getImage().getScaledInstance(x, y, Image.SCALE_DEFAULT);
+  }
+}

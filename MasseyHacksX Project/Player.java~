@@ -1,0 +1,84 @@
+import java.awt.Rectangle;
+
+public class Player{
+  private Rectangle rect;
+  private Vector pos, startPos, lastMove, direction;
+  private int level, hp, diveCD, dashCD, diveCount, dashCount, spd, frame, frameCD;
+  private boolean isGrounded, isDiving, isDashing;
+  
+  public Player(int x, int y, int level){
+    rect = new Rectangle(x, y, 32, 32);
+    pos = new Vector(x, y);
+    startPos = new Vector(x, y);
+    lastMove = new Vector(0, 0);
+    direction = new Vector(0, 0);
+    this.level = level; //indice in Levels.levels
+    hp = 3;
+    diveCD = 0;
+    dashCD = 0;
+    diveCount = 0;
+    dashCount = 0;
+    spd = 4;
+    frame = 0;
+    frameCD = 8;
+    isGrounded = true;
+    isDiving = false;
+    isDashing = false;
+  }
+  
+  public static Player loadPlayer(int level){
+    for(int y = 0; y < 12; y ++){
+      for(int x = 0; x < 16; x ++){
+        if(Levels.levels[level][y][x] == Levels.PLAYER_START){
+          return new Player(x * 32, y * 32, level);
+        }
+      }
+    }
+    return null;
+  }
+  
+  public void advanceFrame(){
+    if(frameCD == 0){
+      if(frame == 3){
+        frame = 0;
+      }
+      else{
+        frame ++;
+      }
+      frameCD = 8;
+    }
+    else{
+      frameCD --;
+    }
+  }
+  
+  public void move(Vector movement){
+    pos.add(movement);
+    rect.x += movement.getX();
+    rect.y += movement.getY();
+  }
+  
+  public void respawn(){
+    pos.setX(startPos.getX());
+    pos.setY(startPos.getY());
+  }
+  
+  public int getLevel(){
+    return level;
+  }
+  public Vector getPos(){
+    return pos;
+  }
+  public int getHP(){
+    return hp;
+  }
+  public int getFrame(){
+    return frame;
+  }
+  public boolean getIsGrounded(){
+    return isGrounded;
+  }
+  public Rectangle getRect(){
+    return rect;
+  }
+}

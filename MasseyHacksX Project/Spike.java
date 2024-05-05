@@ -1,0 +1,26 @@
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
+public class Spike{
+  private Rectangle rect;
+  
+  public Spike(int x, int y){
+    rect = new Rectangle(x * 32, y * 32, 32, 32);
+  }
+  
+  public static ArrayList<Spike> loadSpikes(Player p){
+    ArrayList<Spike> ans = new ArrayList<Spike>();
+    for(int y = 0; y < 12; y ++){
+      for(int x = 0; x < 16; x ++){
+        if(Levels.levels[p.getLevel()][y][x] == Levels.SPIKES){
+          ans.add(new Spike(x, y));
+        }
+      }
+    }
+    return ans;
+  }
+  
+  public Rectangle getRect(){
+    return rect;
+  }
+}
